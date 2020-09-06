@@ -17,7 +17,7 @@ there is a footnote on the tables which states that the 1973-1991 series was adj
 
 * Property victimization rates are measured in terms of households experiencing burglary, larceny (theft), and motor vehicle theft. The rates are expressed in terms of the number of households experiencing victimizations per 1,000 U.S. households.
 
-* Data from 2009-2013 come directly from the NCVS bulletins published by BJS. Currently, the links for these bulletins are: [2009](http://www.bjs.gov/content/pub/pdf/cv09.pdf), [2010](http://www.bjs.gov/content/pub/pdf/cv10.pdf), [2011](http://www.bjs.gov/content/pub/pdf/cv11.pdf), [2012](http://www.bjs.gov/content/pub/pdf/cv12.pdf), and [2013](http://www.bjs.gov/content/pub/pdf/cv13.pdf).
+* Data from 2009-2013 come directly from the NCVS bulletins published by BJS. Currently, the links for these bulletins are: [2009](http://www.bjs.gov/content/pub/pdf/cv09.pdf), [2010](http://www.bjs.gov/content/pub/pdf/cv10.pdf), [2011](http://www.bjs.gov/content/pub/pdf/cv11.pdf), [2012](http://www.bjs.gov/content/pub/pdf/cv12.pdf), [2013](http://www.bjs.gov/content/pub/pdf/cv13.pdf), and the [2018 report](https://www.bjs.gov/content/pub/pdf/cv18.pdf) contains the information from 2014-2018.
 
 * The methods for collecting the data in 2006 were not comparable to those used in other years; therefore, 2006 is not included in the charts.
 
@@ -136,7 +136,7 @@ and here is the output:
 ```
 > # specify the range of years
 > 
-> year <- seq(from=1973,to=2013,by=1)
+> year <- seq(from=1973,to=2018,by=1)
 > 
 > # enter property victimization rates
 > 
@@ -144,18 +144,18 @@ and here is the output:
 +        428.4,399.2,385.4,372.7,379.6,378.4,373.4,348.9,353.7,325.3,
 +        318.9,310.2,290.5,266.4,248.3,217.4,198.0,178.1,166.9,159.0,
 +        163.2,161.1,154.2,NA,146.5,134.7,127.4,120.2,138.7,155.8,
-+        131.4)
++        131.4,118.1,110.7,118.6,108.4,108.2)
 > 
 > # enter violent victimization rates
 > 
 > v <- c(47.7,48.0,48.4,48.0,50.4,50.6,51.7,49.4,52.3,50.7,46.5,46.4,
 +        45.2,42.0,44.0,44.1,43.3,44.1,48.8,47.9,49.1,51.2,46.1,41.6,
 +        38.8,36.0,32.1,27.4,24.7,22.8,22.3,21.1,21.0,NA,20.4,19.0,
-+        17.1,14.9,22.5,26.1,23.2)
++        17.1,14.9,22.5,26.1,23.2,20.1,18.6,19.7,20.6,23.2)
 > 
 > # purge homicides from personal victimization rates
 > 
-> vadj <- c(v[1:36]-0.1,v[37:41])
+> vadj <- c(v[1:36]-0.1,v[37:46])
 > 
 > # print out the data set
 > 
@@ -203,6 +203,11 @@ and here is the output:
 39 2011 138.7 22.5 22.5
 40 2012 155.8 26.1 26.1
 41 2013 131.4 23.2 23.2
+42 2014 118.1 20.1 20.1
+43 2015 110.7 18.6 18.6
+44 2016 118.6 19.7 19.7
+45 2017 108.4 20.6 20.6
+46 2018 108.2 23.2 23.2
 > 
 > # calculate bounds on the median
 > 
@@ -211,25 +216,25 @@ and here is the output:
 > mvlb <- median(vlb)
 > mvub <- median(vub)
 > mvlb
-[1] 43.9
+[1] 41.7
 > mvub
-[1] 44
+[1] 42.55
 > 
 > plb <- ifelse(is.na(p),min(p,na.rm=T),p)
 > pub <- ifelse(is.na(p),max(p,na.rm=T),p)
 > mplb <- median(plb)
 > mpub <- median(pub)
 > mplb
-[1] 318.9
+[1] 278.45
 > mpub
-[1] 325.3
+[1] 300.35
 > 
 > # create line plot for property rates
 > 
 > plot(x=year,y=p,type="l",lty=1,lwd=2,ylim=c(0,600),
-+   xlab="Year (1973-2013)",
++   xlab="Year (1973-2018)",
 +   ylab="Number of Victimization per 1k Households",
-+   main="U.S. Property Victimization Rate (1973-2013)")
++   main="U.S. Property Victimization Rate (1973-2018)")
 > segments(x0=min(year),y0=p[1]-20,
 +          x1=min(year),y1=p[1]+20,
 +          lty=1,lwd=3)
@@ -237,11 +242,11 @@ and here is the output:
 +          x1=max(year),y1=p[length(p)]+15,
 +          lty=1,lwd=3)
 > abline(h=seq(from=0,to=600,by=100),lty=2,lwd=0.7)
-> abline(v=seq(from=1975,to=2010,by=5),lty=2,lwd=0.7)
+> abline(v=seq(from=1975,to=2015,by=5),lty=2,lwd=0.7)
 > abline(h=mplb,lty=3,lwd=1.0)
 > abline(h=mpub,lty=3,lwd=1.0)
 > text(x=min(year),y=p[1]-50,"1973",family="Arial")
-> text(x=max(year),y=p[length(p)]+50,"2013",family="Arial")
+> text(x=max(year),y=p[length(p)]+50,"2018",family="Arial")
 > text(x=2000.5,y=425,adj=c(0,0.5),"Median Rate",cex=0.8,family="Arial")
 > arrows(x0=2000.5,y0=415,
 +        x1=1998,y1=mpub+10,
@@ -250,9 +255,9 @@ and here is the output:
 > # create line plot for violent rates
 > 
 > plot(x=year,y=vadj,type="l",lty=1,lwd=2,ylim=c(0,60),
-+   xlab="Year (1973-2013)",
++   xlab="Year (1973-2018)",
 +   ylab="Number of Victimizations per 1k Population (Age 12+)",
-+   main="U.S. Violent Victimization Rate (1973-2013)")
++   main="U.S. Violent Victimization Rate (1973-2018)")
 > segments(x0=min(year),y0=v[1]-3,
 +          x1=min(year),y1=v[1]+3,
 +          lty=1,lwd=3)
@@ -260,11 +265,11 @@ and here is the output:
 +          x1=max(year),y1=v[length(v)]+3,
 +          lty=1,lwd=3)
 > abline(h=seq(from=0,to=60,by=10),lty=2,lwd=0.7)
-> abline(v=seq(from=1975,to=2010,by=5),lty=2,lwd=0.7)
+> abline(v=seq(from=1975,to=2015,by=5),lty=2,lwd=0.7)
 > abline(h=mvlb,lty=3,lwd=1.0)
 > abline(h=mvub,lty=3,lwd=1.0)
-> text(x=min(year),y=v[1]-6,"1973",family="Arial")
-> text(x=max(year),y=v[length(v)]+5,"2013",family="Arial")
+> text(x=min(year),y=v[1]+6,"1973",family="Arial")
+> text(x=max(year),y=v[length(v)]+5,"2018",family="Arial")
 > abline(h=mplb,lty=3,lwd=1.0)
 > abline(h=mpub,lty=3,lwd=1.0)
 > text(x=2005.5,y=35,adj=c(0,0.5),"Median Rate",cex=0.8,family="Arial")
