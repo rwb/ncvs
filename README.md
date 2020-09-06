@@ -26,13 +26,13 @@ there is a footnote on the tables which states that the 1973-1991 series was adj
 * Here is the property victimization rate plot:
 
 <p align="center">
-<img src="ncvs-property.png">
+<img src="prop-vic.png">
 </p>
 
 * And, here is a plot of the violent victimization rate:
 
 <p align="center">
-<img src="ncvs-violent.png">
+<img src="viol-vic.png">
 </p>
 
 This is the R code used to generate the plots:
